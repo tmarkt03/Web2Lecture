@@ -10,8 +10,8 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
+        return view('introduction');
+    })->name('introduction');
     Route::get('user', function () { return view('user'); })->name("user");
     Route::get('admin', 'App\Http\Controllers\AdminController@adminPage');
     Route::resource('articles', ArticleController::class);

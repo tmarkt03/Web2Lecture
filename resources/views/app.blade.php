@@ -45,5 +45,7 @@
     </head>
     <body class="font-sans antialiased">
         @inertia
+  <a href="/introduction">Introduction</a>
+
     </body>
 </html>
