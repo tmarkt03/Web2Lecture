@@ -2,6 +2,7 @@
 @section("title") Articles @endsection
 @section("content")
 <div class="row mb-4">
+  <a href="/introduction">Back to introduction</a>
     <div class="col-xl-6">
         @if(Session::has('success'))
             <div class="alert alert-success alert-dismissible">
@@ -14,7 +15,7 @@
                 <button type="button" class="close" data-dismiss="alert">× </button>
                 {{Session::get('failed')}}
             </div>
-        @endif 
+        @endif
     </div>
     <div class="col-xl-6 text-right">
         <a href="{{route('articles.create')}}" class="btn btn-success "> Add New </a>
