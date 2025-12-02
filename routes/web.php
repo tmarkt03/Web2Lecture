@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\ArticleController;
 
 Route::get('/', function () {
     return Inertia::render('welcome');
@@ -14,10 +15,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('user', function () { return view('user'); })->name("user");
     Route::get('admin', 'App\Http\Controllers\AdminController@adminPage');
 
+    Route::get('articles',[ArticleController::class,'index']);
+    Route::get('articles/create',[ArticleController::class,'create']);
+    Route::post('articles/store',[ArticleController::class,'store']);
+    Route::get('articles/show/{article}',[ArticleController::class,'show']);
+    Route::get('articles/edit/{article}',[ArticleController::class,'edit']);
+    Route::post('articles/update/{article}',[ArticleController::class,'update']);
+    Route::get('articles/delete/{article}',[ArticleController::class,'delete']);
+
 });
 
-Route::get('exercise1', function () { return view('view1'); });
 
+Route::get('exercise1', function () { return view('view1'); });
 
 Route::get('introduction', function () { return view('introduction'); });
 

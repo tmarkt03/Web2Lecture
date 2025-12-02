@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         ]);
         $this->call(WorkerSeeder::class);
         $this->call(AddressSeeder::class);
+        $this->call(ArticleSeeder::class);
     }
 }
