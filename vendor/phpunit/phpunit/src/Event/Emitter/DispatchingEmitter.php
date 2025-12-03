@@ -11,6 +11,7 @@ namespace PHPUnit\Event;
 
 use function assert;
 use function memory_reset_peak_usage;
+use function preg_match;
 use PHPUnit\Event\Code\ClassMethod;
 use PHPUnit\Event\Code\ComparisonFailure;
 use PHPUnit\Event\Code\IssueTrigger\IssueTrigger;
@@ -1020,7 +1021,9 @@ final class DispatchingEmitter implements Emitter
             if (isset($metadata[0])) {
                 assert($metadata[0] instanceof IgnorePhpunitWarnings);
 
-                if ($metadata[0]->shouldIgnore($message)) {
+                $messagePattern = $metadata[0]->messagePattern();
+
+                if ($messagePattern === null || (bool) preg_match('{' . $messagePattern . '}', $message)) {
                     $ignoredByTest = true;
                 }
             }
@@ -1333,6 +1336,13 @@ final class DispatchingEmitter implements Emitter
      */
     public function testRunnerTriggeredPhpunitDeprecation(string $message): void
     {
+        try {
+            if (TestMethodBuilder::fromCallStack()->metadata()->isIgnorePhpunitDeprecations()->isNotEmpty()) {
+                return;
+            }
+        } catch (NoTestCaseObjectOnCallStackException) {
+        }
+
         $this->dispatcher->dispatch(
             new TestRunner\DeprecationTriggered(
                 $this->telemetryInfo(),
